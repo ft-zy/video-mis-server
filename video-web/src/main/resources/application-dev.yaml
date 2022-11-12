@@ -1,0 +1,108 @@
+#端口号配置
+server:
+  port: 8089
+#数据库连接配置
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/video-web?&serverTimezone=GMT%2B8
+    username: root
+    password: 240133
+    druid:
+      initialSize: 5 # 初始化连接池个数
+      maxActive: 20 # 最大连接池个数
+      maxWait: 60000 # 连接等待超时的时间
+      timeBetweenEvictionRunsMillis: 60000 # 配置间隔多久检测一次，检测需要关闭的空闲连接
+      minEvictableIdleTimeMillis: 300000 # 配置一个连接在池中最小生存的时间
+      # 验证数据库连接的有效性
+      validation-query: select '1' from dual
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      # 配置监控过滤器
+      filters: stat,wall,slf4j # 配置监控统计拦截的filters
+      web-stat-filter:
+        enabled: true
+        url-pattern: /*
+        exclusions: .js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*
+      # 配置监控页面
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        allow:    # IP 白名单，没有配置或者为空，则允许所有访问
+        deny:     # IP 黑名单，若白名单也存在，则优先使用
+        reset-enable: false # 禁用 HTML 中 Reset All 按钮
+        login-username: admin
+        login-password: admin
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+  servlet:
+    multipart:
+      max-file-size: 5GB
+      max-request-size: 5GB
+
+  devtools:
+    #热部署生效,默认就是true
+    restart:
+      enabled: true
+    livereload:
+      port: 35731
+  mail:
+    host: smtp.qq.com
+    username: 2401332784@qq.com
+    password: igktodvbjffveabf
+
+#mybatis plus配置
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      #配置mybatis plus 在更新时只更新非空和非NULL的字段
+      update-strategy: not_empty
+
+logging:
+  pattern:
+    console: '%d{yyyy-MM-dd} [%thread] %-5level %logger- %msg%n'
+
+file-save-imgPath: G:/video_web/img/
+file-save-SlideShow: G:/video_web/SlideShow/
+file-save-Portrait: G:/video_web/Portrait/
+file-save-videoPath: G:/video_web/video/
+file-save-AnimePath: G:/video_web/anime/
+file-save-AnimeCoverPath: G:/video_web/anime_cover/
+file-save-TvPath: G:/video_web/tv/
+file-save-TvCoverPath: G:/video_web/tv_cover/
+
+
+knife4j:
+  enable: true
+  #true则是生产环境不允许访问knife4j
+  production: false
+
+jwt:
+  isUser: zy
+  secret: ~1ee6342#@!$%^$#sdf.e<8sdf!09!7325?><<!@_1_@!>>52ziw434me324hg
+  expiration: 30
+
+easycaptcha:
+  code-type: arithmetic
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zy.web.video_system.menu.mapper.MenuMapper">
+
+    <resultMap id="BaseResultMap" type="com.zy.web.video_system.menu.entity.Menu">
+            <id property="mid" column="mid" jdbcType="INTEGER"/>
+            <result property="parentId" column="parent_id" jdbcType="INTEGER"/>
+            <result property="title" column="title" jdbcType="VARCHAR"/>
+            <result property="code" column="code" jdbcType="VARCHAR"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="path" column="path" jdbcType="VARCHAR"/>
+            <result property="url" column="url" jdbcType="VARCHAR"/>
+            <result property="type" column="type" jdbcType="VARCHAR"/>
+            <result property="icon" column="icon" jdbcType="VARCHAR"/>
+            <result property="parentName" column="parent_name" jdbcType="VARCHAR"/>
+            <result property="orderNum" column="order_num" jdbcType="INTEGER"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        mid,parent_id,title,
+        code,name,path,
+        url,type,icon,
+        parent_name,order_num,create_time,
+        update_time
+    </sql>
+    <insert id="insertAll">
+        insert into menu
+        (mid, parent_id, title,
+         code, name, path,
+         url, type, icon,
+         parent_name, order_num, create_time,
+         update_time)
+        values (#{mid,jdbcType=NUMERIC}, #{parentId,jdbcType=NUMERIC}, #{title,jdbcType=VARCHAR},
+                #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR},
+                #{url,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR},
+                #{parentName,jdbcType=VARCHAR}, #{orderNum,jdbcType=NUMERIC}, #{createTime,jdbcType=TIMESTAMP},
+                #{updateTime,jdbcType=TIMESTAMP})
+
+    </insert>
+    <update id="updateSelective">
+        update menu
+        <set>
+            <if test="parentId != null">parent_id=#{parentId,jdbcType=NUMERIC},</if>
+            <if test="title != null">title=#{title,jdbcType=VARCHAR},</if>
+            <if test="code != null">code=#{code,jdbcType=VARCHAR},</if>
+            <if test="name != null">name=#{name,jdbcType=VARCHAR},</if>
+            <if test="path != null">path=#{path,jdbcType=VARCHAR},</if>
+            <if test="url != null">url=#{url,jdbcType=VARCHAR},</if>
+            <if test="type != null">type=#{type,jdbcType=VARCHAR},</if>
+            <if test="icon != null">icon=#{icon,jdbcType=VARCHAR},</if>
+            <if test="parentName != null">parent_name=#{parentName,jdbcType=VARCHAR},</if>
+            <if test="orderNum != null">order_num=#{orderNum,jdbcType=NUMERIC},</if>
+            <if test="createTime != null">create_time=#{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="updateTime != null">update_time=#{updateTime,jdbcType=TIMESTAMP},</if>
+        </set>
+        where mid = #{mid,jdbcType=NUMERIC}
+    </update>
+    <delete id="deleteByMid">
+        delete
+        from menu
+        where mid = #{mid,jdbcType=NUMERIC}
+    </delete>
+    <select id="getMenuByAid" resultType="com.zy.web.video_system.menu.entity.Menu">
+        SELECT m.* FROM admin_role as a
+                          left JOIN role as r on a.roId = r.roId
+                          left JOIN role_menu as rm on r.roId = rm.roId
+                          left JOIN menu as m on rm.mid = m.mid
+        where a.a_Id = #{aid}
+        order by m.order_num asc
+    </select>
+    <select id="getMenuByRoleId" resultType="com.zy.web.video_system.menu.entity.Menu">
+        select m.* from role_menu as rm, menu as m
+        where rm.mid = m.mid
+          and rm.roId = #{roId}
+        order by m.order_num asc
+    </select>
+
+</mapper>

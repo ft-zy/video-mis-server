@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zy.web.video_management.anime.mapper.AnimeMapper">
+
+    <resultMap id="BaseResultMap" type="com.zy.web.video_management.anime.entity.Anime">
+            <id property="avid" column="avid" jdbcType="INTEGER"/>
+            <result property="aid" column="aid" jdbcType="INTEGER"/>
+            <result property="count" column="count" jdbcType="INTEGER"/>
+            <result property="vurl" column="vurl" jdbcType="VARCHAR"/>
+            <result property="vnum" column="vnum" jdbcType="INTEGER"/>
+            <result property="anum" column="anum" jdbcType="INTEGER"/>
+            <result property="bnum" column="bnum" jdbcType="INTEGER"/>
+            <result property="deleted" column="deleted" jdbcType="INTEGER"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        avid,aid,count,
+        vurl,vnum,anum,
+        bnum,deleted,create_time,
+        update_time
+    </sql>
+    <select id="selectAnimeList" resultType="com.zy.web.video_management.anime.entity.Anime">
+        select a.aid, an.name, an.cover, a.count ,a.vurl
+        from anime a
+                 LEFT JOIN anime_name an on a.aid = an.aid
+        where a.aid = #{aid} and an.aid = #{aid}
+        ORDER BY a.count ASC
+    </select>
+    <select id="selectAnimeInfoList" resultType="com.zy.web.video_management.anime.entity.Anime">
+        select a.avid,a.aid, an.name,  a.count ,a.vurl
+        from anime a
+        LEFT JOIN anime_name an on a.aid = an.aid
+        where 1=1
+    </select>
+</mapper>

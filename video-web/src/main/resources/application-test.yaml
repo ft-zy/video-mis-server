@@ -1,0 +1,85 @@
+#端口号配置
+server:
+  port: 8089
+#数据库连接配置
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/video-web?&serverTimezone=GMT%2B8
+    username: root
+    password: 240133
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+  servlet:
+    multipart:
+      max-file-size: 5GB
+      max-request-size: 5GB
+
+  devtools:
+    #热部署生效,默认就是true
+    restart:
+      enabled: true
+
+file-save-imgPath: F:/video_web/img/
+file-save-videoPath: F:/video_web/video/
+
+#mybatis plus配置
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      #配置mybatis plus 在更新时只更新非空和非NULL的字段
+      update-strategy: not_empty
+
+logging:
+  pattern:
+    console: '%d{yyyy-MM-dd} [%thread] %-5level %logger- %msg%n'
+
+knife4j:
+  enable: true
+  #true则是生产环境不允许访问knife4j
+  production: false
+
+sa-token:
+  # token 名称 (同时也是cookie名称)
+  token-name: satoken
+  # token 有效期，单位s 默认30天, -1代表永不过期
+  timeout: 2592000
+  # token 临时有效期 (指定时间内无操作就视为token过期) 单位: 秒
+  activity-timeout: -1
+  # 是否允许同一账号并发登录 (为true时允许一起登录, 为false时新登录挤掉旧登录)
+  is-concurrent: true
+  # 在多人登录同一账号时，是否共用一个token (为true时所有登录共用一个token, 为false时每次登录新建一个token)
+  is-share: false
+  # token风格
+  token-style: uuid
+  # 是否输出操作日志
+  is-log: false
+
+
+jwt:
+  isUser: zy
+  secret: ~1ee6342#@!$%^$#sdf.e<8sdf!09!7325?><<!@_1_@!>>52ziw434me324hg
+  expiration: 30
+
+easycaptcha:
+  code-type: arithmetic
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

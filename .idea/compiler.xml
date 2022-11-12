@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="video-common" />
+        <module name="demo" />
+        <module name="video-web" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="demo" target="1.8" />
+      <module name="untitled" target="1.8" />
+      <module name="video-client" target="1.8" />
+      <module name="video-frontdesk" target="1.8" />
+      <module name="video-system" target="1.8" />
+      <module name="video-System" target="1.8" />
+      <module name="video-validation" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="demo" options="-parameters" />
+      <module name="untitled" options="-parameters" />
+      <module name="video-System" options="-parameters" />
+      <module name="video-client" options="-parameters" />
+      <module name="video-common" options="-parameters" />
+      <module name="video-frontdesk" options="-parameters" />
+      <module name="video-system" options="-parameters" />
+      <module name="video-validation" options="-parameters" />
+      <module name="video-web" options="-parameters" />
+    </option>
+  </component>
+</project>

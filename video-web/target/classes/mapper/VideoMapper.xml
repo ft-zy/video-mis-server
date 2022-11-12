@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zy.web.video_management.videoInfo.mapper.VideoMapper">
+
+    <resultMap id="BaseResultMap" type="com.zy.web.entity.Video">
+            <id property="vid" column="vid" jdbcType="INTEGER"/>
+            <result property="vname" column="vname" jdbcType="VARCHAR"/>
+            <result property="vinfo" column="vinfo" jdbcType="VARCHAR"/>
+            <result property="vurl" column="vurl" jdbcType="VARCHAR"/>
+            <result property="vnum" column="vnum" jdbcType="INTEGER"/>
+            <result property="anum" column="anum" jdbcType="INTEGER"/>
+            <result property="bnum" column="bnum" jdbcType="INTEGER"/>
+            <result property="rid" column="rid" jdbcType="INTEGER"/>
+            <result property="id" column="id" jdbcType="INTEGER"/>
+            <result property="yid" column="yid" jdbcType="INTEGER"/>
+            <result property="deleted" column="deleted" jdbcType="INTEGER"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        vid,vname,vinfo,
+        vurl,vnum,anum,
+        bnum,rid,id,
+        yid,deleted,create_time,
+        update_time,vphoto
+    </sql>
+
+    <insert id="insertAll">
+        insert into video
+        (vid, vname, vinfo,
+         vurl, vnum, anum,
+         bnum, rid, id,
+         yid, deleted, create_time,
+         update_time, vphoto)
+        values (#{vid,jdbcType=NUMERIC}, #{vname,jdbcType=VARCHAR}, #{vinfo,jdbcType=VARCHAR},
+                #{vurl,jdbcType=VARCHAR}, #{vnum,jdbcType=NUMERIC}, #{anum,jdbcType=NUMERIC},
+                #{bnum,jdbcType=NUMERIC}, #{rid,jdbcType=NUMERIC}, #{id,jdbcType=NUMERIC},
+                #{yid,jdbcType=NUMERIC}, #{deleted,jdbcType=NUMERIC}, #{createTime,jdbcType=TIMESTAMP},
+                #{updateTime,jdbcType=TIMESTAMP}, #{vphoto,jdbcType=VARCHAR})
+
+    </insert>
+    <delete id="deleteById">
+        delete
+        from video
+        where vid = #{vid,jdbcType=NUMERIC}
+    </delete>
+
+    <update id="updateSelective">
+        update video
+        <set>
+            <if test="vname != null">vname=#{vname,jdbcType=VARCHAR},</if>
+            <if test="vinfo != null">vinfo=#{vinfo,jdbcType=VARCHAR},</if>
+            <if test="vurl != null">vurl=#{vurl,jdbcType=VARCHAR},</if>
+            <if test="vnum != null">vnum=#{vnum,jdbcType=NUMERIC},</if>
+            <if test="anum != null">anum=#{anum,jdbcType=NUMERIC},</if>
+            <if test="bnum != null">bnum=#{bnum,jdbcType=NUMERIC},</if>
+            <if test="rid != null">rid=#{rid,jdbcType=NUMERIC},</if>
+            <if test="id != null">id=#{id,jdbcType=NUMERIC},</if>
+            <if test="yid != null">yid=#{yid,jdbcType=NUMERIC},</if>
+            <if test="deleted != null">deleted=#{deleted,jdbcType=NUMERIC},</if>
+            <if test="createTime != null">create_time=#{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="updateTime != null">update_time=#{updateTime,jdbcType=TIMESTAMP},</if>
+            <if test="vphoto != null">vphoto=#{vphoto,jdbcType=VARCHAR},</if>
+        </set>
+        where vid = #{vid,jdbcType=NUMERIC}
+    </update>
+
+    <sql id="column">
+        v.vid,v.vname, v.vinfo, v.vphoto, v.vurl,
+            v.id, video_type.type_name,
+            v.rid, region.region,
+            v.yid, video_year.video_year
+    </sql>
+
+    <select id="selectVideoInfoList" resultType="com.zy.web.entity.Video">
+        SELECT
+        <include refid="column"/>
+        from video v
+        left JOIN video_type on v.id = video_type.id
+        left JOIN region 	on v.rid = region.rid
+        left JOIN video_year on v.yid = video_year.yid
+        WHERE 1=1
+        <if test="ew.sqlSegment !=''">
+            and ${ew.sqlSegment}
+        </if>
+        order by v.create_time asc,v.update_time asc
+
+    </select>
+    <select id="selectVideoByIdInfo" resultType="com.zy.web.entity.Video">
+        SELECT v.vid, v.vname, v.vinfo,vurl, video_type.type_name,
+               video_year.video_year,  region.region
+        FROM video v
+                 left JOIN video_type on v.id = video_type.id
+                 left JOIN region on v.rid = region.rid
+                 left JOIN video_year on v.yid = video_year.yid
+        where v.vid = #{vid}
+    </select>
+
+</mapper>

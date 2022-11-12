@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zy.frontdesk.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.zy.frontdesk.entity.User">
+            <id property="uid" column="u_id" jdbcType="INTEGER"/>
+            <result property="username" column="username" jdbcType="VARCHAR"/>
+            <result property="netName" column="net_name" jdbcType="VARCHAR"/>
+            <result property="password" column="password" jdbcType="VARCHAR"/>
+            <result property="email" column="email" jdbcType="VARCHAR"/>
+            <result property="uportrait" column="uportrait" jdbcType="VARCHAR"/>
+            <result property="deleted" column="deleted" jdbcType="INTEGER"/>
+            <result property="version" column="version" jdbcType="INTEGER"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="state" column="state" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        u_id,username,net_name,
+        password,email,uportrait,
+        deleted,version,create_time,
+        update_time,state
+    </sql>
+
+    <select id="selectByEmail" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where
+        email = #{email,jdbcType=VARCHAR}
+    </select>
+    <select id="getEmailInfo" resultType="com.zy.frontdesk.entity.User">
+        SELECT
+        <include refid="Base_Column_List"/>
+       from user
+       where email = #{email,jdbcType=VARCHAR}
+        <if test="ew.sqlSegment !=''">
+            and ${ew.sqlSegment}
+        </if>
+    </select>
+</mapper>

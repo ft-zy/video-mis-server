@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zy.web.video_management.tv_series.mapper.TvSeriesMapper">
+
+    <resultMap id="BaseResultMap" type="com.zy.web.video_management.tv_series.entity.TvSeries">
+            <id property="vid" column="vid" jdbcType="INTEGER"/>
+            <result property="tvid" column="tvid" jdbcType="INTEGER"/>
+            <result property="count" column="count" jdbcType="INTEGER"/>
+            <result property="vurl" column="vurl" jdbcType="VARCHAR"/>
+            <result property="vnum" column="vnum" jdbcType="INTEGER"/>
+            <result property="anum" column="anum" jdbcType="INTEGER"/>
+            <result property="bnum" column="bnum" jdbcType="INTEGER"/>
+            <result property="deleted" column="deleted" jdbcType="INTEGER"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        vid,tvid,count,
+        vurl,vnum,anum,
+        bnum,deleted,create_time,
+        update_time
+    </sql>
+    <select id="selectTvList" resultType="com.zy.web.video_management.tv_series.entity.TvSeries">
+        select t.vid, t.tvid, n.name,
+               t.count,t.vurl
+        from tv_series t
+                 LEFT JOIN tv_series_name n on t.tvid = n.tvid
+        where t.tvid = #{tvid} and n.tvid = #{tvid}
+        ORDER BY t.count ASC
+    </select>
+    <select id="selectTvInfoList" resultType="com.zy.web.video_management.tv_series.entity.TvSeries">
+        SELECT t.vid,t.tvid, t.count, s.`name`, t.vurl
+        FROM tv_series t
+                 LEFT JOIN tv_series_name s on t.tvid = s.tvid
+        where 1=1
+    </select>
+</mapper>

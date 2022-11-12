@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zy.web.video_system.admin.mapper.AdminMapper">
+
+    <resultMap id="BaseResultMap" type="com.zy.web.video_system.admin.entity.Admin">
+            <id property="aid" column="a_Id" jdbcType="INTEGER"/>
+            <result property="roid" column="roId" jdbcType="INTEGER"/>
+            <result property="account" column="account" jdbcType="VARCHAR"/>
+            <result property="apassword" column="apassword" jdbcType="VARCHAR"/>
+            <result property="aphone" column="aphone" jdbcType="VARCHAR"/>
+            <result property="aemail" column="aemail" jdbcType="VARCHAR"/>
+            <result property="asex" column="asex" jdbcType="VARCHAR"/>
+            <result property="aportrait" column="aportrait" jdbcType="VARCHAR"/>
+            <result property="isadmin" column="isadmin" jdbcType="TINYINT"/>
+            <result property="accountNonExpired" column="account_non_expired" jdbcType="TINYINT"/>
+            <result property="accountNonLocked" column="account_non_locked" jdbcType="TINYINT"/>
+            <result property="accounNonExpired" column="accoun_non_expired" jdbcType="TINYINT"/>
+            <result property="aenabled" column="aenabled" jdbcType="TINYINT"/>
+            <result property="aname" column="aname" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        a_Id,roId,account,
+        apassword,aphone,aemail,
+        asex,aportrait,isadmin,
+        account_non_expired,account_non_locked,accoun_non_expired,
+        aenabled,aname,create_time,
+        update_time
+    </sql>
+
+    <sql id="d">
+        a.a_Id,
+        a.aphone, a.aemail, a.asex, a.aname,
+        a.account, a.aportrait,a.apassword,
+		a.roId,role.role_name
+    </sql>
+
+    <select id="selectAdminList" resultType="com.zy.web.video_system.admin.entity.Admin">
+        SELECT
+        <include refid="d"/>
+        from admin a
+        LEFT JOIN role on a.roId = role.roId
+        WHERE 1=1
+        <if test="ew.sqlSegment !=''">
+            and ${ew.sqlSegment}
+        </if>
+    </select>
+
+</mapper>

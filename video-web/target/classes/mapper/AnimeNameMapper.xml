@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zy.web.video_management.anime_name.mapper.AnimeNameMapper">
+
+    <resultMap id="BaseResultMap" type="com.zy.web.video_management.anime_name.entity.AnimeName">
+            <id property="aid" column="aid" jdbcType="INTEGER"/>
+            <result property="id" column="id" jdbcType="INTEGER"/>
+            <result property="rid" column="rid" jdbcType="INTEGER"/>
+            <result property="yid" column="yid" jdbcType="INTEGER"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="cover" column="cover" jdbcType="VARCHAR"/>
+            <result property="info" column="info" jdbcType="VARCHAR"/>
+            <result property="version" column="version" jdbcType="INTEGER"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="deleted" column="deleted" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        aid,id,rid,
+        yid,name,cover,
+        info,version,create_time,
+        update_time,deleted
+    </sql>
+    <select id="selectAnimeNameInfoList" resultType="com.zy.web.video_management.anime_name.entity.AnimeName">
+        SELECT a.aid, a.cover, a.name, a.info,
+               a.id,  video_type.type_name,
+               a.yid,  video_year.video_year,
+               a.rid,region.region
+        FROM anime_name a
+                 left JOIN video_type on a.id = video_type.id
+                 left JOIN region 	on a.rid = region.rid
+                 left JOIN video_year on a.yid = video_year.yid
+        WHERE 1=1
+        <if test="ew.sqlSegment !=''">
+            and ${ew.sqlSegment}
+        </if>
+        order by video_year.video_year desc
+    </select>
+    <select id="selectAnimeNameByIdInfo" resultType="com.zy.web.video_management.anime_name.entity.AnimeName">
+        SELECT a.aid, a.`name`, a.info,
+               video_year.video_year, video_type.type_name, region.region
+        FROM anime_name a
+                 left JOIN video_type on a.id = video_type.id
+                 left JOIN region on a.rid = region.rid
+                 left JOIN video_year on a.yid = video_year.yid
+        where a.aid = #{aid}
+    </select>
+</mapper>

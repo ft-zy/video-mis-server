@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zy.web.video_management.video_type.mapper.VideoTypeMapper">
+
+    <resultMap id="BaseResultMap" type="com.zy.web.entity.VideoType">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="typeName" column="type_name" jdbcType="VARCHAR"/>
+            <result property="deleted" column="deleted" jdbcType="INTEGER"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <insert id="insertAll">
+        insert into video_type
+        (id, type_name, deleted,
+         create_time, update_time)
+        values (#{id,jdbcType=NUMERIC}, #{typeName,jdbcType=VARCHAR}, #{deleted,jdbcType=NUMERIC},
+                #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+
+    </insert>
+    <delete id="deleteById">
+        delete
+        from video_type
+        where id = #{id,jdbcType=NUMERIC}
+    </delete>
+    <update id="updateSelective">
+        update video_type
+        <set>
+            <if test="typeName != null">type_name=#{typeName,jdbcType=VARCHAR},</if>
+            <if test="deleted != null">deleted=#{deleted,jdbcType=NUMERIC},</if>
+            <if test="createTime != null">create_time=#{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="updateTime != null">update_time=#{updateTime,jdbcType=TIMESTAMP},</if>
+        </set>
+        where id = #{id,jdbcType=NUMERIC}
+    </update>
+
+
+</mapper>
